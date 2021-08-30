@@ -1,0 +1,160 @@
+html {
+  scroll-behavior: smooth;
+}
+
+:root {
+  --bg-color: rgb(60, 60, 60);
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  color: white;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-weight: bold;
+}
+
+.container {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.title {
+  width: 100%;
+  height: auto;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 0;
+  background-color: #282828;
+  box-shadow: 2px 2px 5px black;
+}
+
+.slider-container {
+  width: 100%;
+  height: auto;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 0;
+  box-shadow: 2px 2px 5px black;
+  color: black;
+  font-weight: bold;
+}
+
+.slider {
+  padding: 20px;
+}
+
+.container-row {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  box-shadow: 2px 2px 5px black;
+}
+
+.form-container {
+  width: auto;
+  height: auto;
+  max-height: 400px;
+  justify-content: center;
+  align-items: center;
+  text-align: left;
+  margin: 20px;
+  padding: 20px;
+  box-shadow: 2px 2px 5px black;
+  font-size: large;
+  font-weight: bold;
+}
+
+.console-container {
+  width: 40%;
+  min-height: 400px;
+  height: auto;
+  text-align: left;
+  margin: 20px;
+  padding: 20px;
+  box-shadow: 2px 2px 5px black;
+  background-color: white;
+  font-size: large;
+  font-weight: bold;
+  color: black;
+}
+
+.btn {
+  color: white;
+  padding: 1em;
+  margin: 1em;
+  border-radius: 10%;
+}
+
+.btn:hover {
+  color: black;
+  box-shadow: 2px 2px 5px black;
+  cursor: pointer;
+}
+
+.btn-success {
+  background-color: #00b400;
+  border-color: #008c00;
+}
+
+.btn-success:hover {
+  background-color: lime;
+  border-color: #00f000;
+}
+
+.btn-danger {
+  background-color: #b40000;
+  border-color: #8c0000;
+}
+
+.btn-danger:hover {
+  background-color: red;
+  border-color: #f00000;
+}
+
+/* Mobile */
+@media screen and (max-width: 768px) {
+  .container-row {
+    flex-wrap: wrap;
+  }
+
+  .form-container {
+    width: auto;
+    height: auto;
+    max-height: 400px;
+    justify-content: center;
+    align-items: center;
+    text-align: left;
+    margin: 20px;
+    padding: 20px;
+    box-shadow: 2px 2px 5px black;
+    font-size: large;
+    font-weight: bold;
+  }
+
+  .console-container {
+    width: 100%;
+    margin: 0px;
+  }
+}/*# sourceMappingURL=main.css.map */

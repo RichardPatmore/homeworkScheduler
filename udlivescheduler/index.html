@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/elessar.css" type="text/css">
+  <link rel="stylesheet" href="css/main.css" type="text/css">
+  <title>UDLive Homework Scheduler</title>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="title">
+      <h2>UDLive Homework Scheduler</h2>
+    </div>
+
+    <div class="slider-container">
+      <div id="slider-1" class="slider">
+      </div>
+    </div>
+  
+    <div class="container-row">
+
+      <div class="form-container">
+        <h3>Create form</h3>
+        <hr>
+        <form id="create-form-1">
+           <div class="form-group">
+             <label for="start_time">Start time: </label>
+            <input type="time" name="start_time" data-tt-model="start_time" placeholder="HH:mm ex) 19:30">
+          </div>
+          <br>
+           <div class="form-group">
+             <label for="end_time">End time: </label>
+            <input type="time" name="end_time" data-tt-model="end_time" placeholder="HH:mm ex) 20:30">
+          </div>
+          <br>
+           <div class="form-group">
+            <label>Event Type: </label>
+             <input type="checkbox" id="option1" name="event_name" value="exam" data-tt-model="event_name">
+             <label for="option1">Exam</label>
+             <input type="checkbox" id="option1" name="event_name" value="course_work" data-tt-model="event_name">
+             <label for="option1">Course work</label>
+          </div>
+          <br>
+           <div class="form-group">
+             <label for="event_id">Event Id: </label>
+            <input type="text" name="event_id" data-tt-model="event_id">
+          </div>
+          <br>
+           <div class="form-group">
+             <label for="description">Description: </label>
+            <input type="text" name="description" data-tt-model="description">
+          </div>
+          <br>
+          <button class="btn btn-danger create-task" data-tt-model="createButton">Create</button>
+        </form>
+      </div>
+  
+      <div class="form-container">
+        <h3>Edit form</h3>
+        <hr>
+        <form id="edit-form-1">
+           <div class="form-group">
+             <label for="start_time">Start time: </label>
+            <input type="time" name="start_time" data-tt-model="start_time" placeholder="HH:mm ex) 19:30">
+          </div>
+          <br>
+           <div class="form-group">
+             <label for="end_time">End time: </label>
+            <input type="time" name="end_time" data-tt-model="end_time" placeholder="HH:mm ex) 20:30">
+          </div>
+          <br>
+           <div class="form-group">
+            <label>Event Type: </label>
+             <input type="checkbox" id="option1" name="event_name" value="exam" data-tt-model="event_name">
+             <label for="option1">Exam</label>
+             <input type="checkbox" id="option1" name="event_name" value="course_work" data-tt-model="event_name">
+             <label for="option1">Course work</label>
+          </div>
+          <br>
+           <div class="form-group">
+             <label for="event_id">Event Id: </label>
+            <input type="text" name="event_id" data-tt-model="event_id">
+          </div>
+          <br>
+           <div class="form-group">
+             <label for="description">Description: </label>
+            <input type="text" name="description" data-tt-model="description">
+          </div>
+          <br>
+          <button class="btn btn-danger delete-task" data-tt-model="deleteButton">Delete</button>
+        </form>
+      </div>
+
+      <div class="console-container">
+        <button class="btn btn-success export-to-json">Download Json</button>
+        <div id="event-console-box">
+        </div>
+      </div>
+
+    </div>
+    
+
+  </div>
+
+  <script src="lib/jquery.min.js"></script>
+  <script src="lib/bootstrap.min.js"></script>
+  <script src="lib/index.js"></script>
+  <script src="lib/moment.min.js"></script>
+  <script src="timetable.js"></script>
+
+  <script>
+    var timeTableFirst = TimeTable();
+    $('#slider-1').prepend(timeTableFirst.$el);
+    timeTableFirst.on("click.task", function(ev, t){
+      timeTableFirst.unbindTasks();
+      timeTableFirst.unFocusTasks();
+      timeTableFirst.bindTaskForm(t, $("#edit-form-1"));
+      timeTableFirst.focusTask(t);
+    }).on("change.task", function(ev, t){
+      $("#event-console-box").prepend($('<pre>').html(JSON.stringify(
+        $.extend(t.toJsonObj(), {event: "change task"}),
+        null, 2)));
+    }).on("addtask", function(ev, t){
+      timeTableFirst.unbindTasks();
+      timeTableFirst.unFocusTasks();
+      timeTableFirst.bindTaskForm(t, $("#edit-form-1"));
+      timeTableFirst.focusTask(t);
+      $("#event-console-box").prepend($('<pre>').html(JSON.stringify(
+        $.extend(t.toJsonObj(), {event: "add task"}),
+        null, 2)));
+    }).on("delete.task", function(ev,jobId){
+      $("#event-console-box").prepend($('<pre>').html(JSON.stringify(
+        {event: "delete task", event_id: jobId}),
+        null, 2));
+    });
+    
+    $('#create-form-1').submit(function(e){
+      e.preventDefault();
+      var sArray = $(this).serializeArray();
+      var params = {};
+      for(var t of sArray){
+        params[t.name] = t.value;
+      }
+      timeTableFirst.addTask(params);
+    });
+    $('.delete-task').click(function(e){
+      e.preventDefault();
+    });
+    
+    $(".export-to-json").click(function(){
+      var text = JSON.stringify(timeTableFirst.toJsonObj(), null, 2);
+      var filename = "schedule.json";
+      var element = document.createElement('a');
+      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+      element.setAttribute('download', filename);
+      element.style.display = 'none';
+      document.body.appendChild(element);
+      element.click();
+      document.body.removeChild(element);
+    });
+    </script>
+
+</body>
+
+</html>
